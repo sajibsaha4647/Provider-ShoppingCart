@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:provider_with_shoppingcart/Cart_Provider.dart';
 import 'package:provider_with_shoppingcart/SplashScreen.dart';
 
 void main() {
@@ -19,14 +21,17 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          // You can use the library anywhere in the app even in theme
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
+        return MultiProvider(
+          providers: [ChangeNotifierProvider(create: (_) => cartProvider())],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            // You can use the library anywhere in the app even in theme
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
+            ),
+            home: child,
           ),
-          home: child,
         );
       },
       child: const SplashScreen(),
