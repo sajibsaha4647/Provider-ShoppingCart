@@ -85,10 +85,13 @@ class _ProductListState extends State<ProductList> {
                       onTap: () {},
                       child: Center(
                         child: Badge(
-                          badgeContent: const Text(
-                            "0",
-                            style: TextStyle(color: Colors.cyan),
-                          ),
+                          badgeContent: Consumer<Cartprovider>(
+                              builder: (context, value, child) {
+                            return Text(
+                              value.getcounter().toString(),
+                              style: const TextStyle(color: Colors.cyan),
+                            );
+                          }),
                           badgeColor: Colors.white,
                           child: const Icon(Icons.shopping_bag),
                         ),
@@ -167,6 +170,12 @@ class _ProductListState extends State<ProductList> {
                                                     image: productImage[index]
                                                         .toString()))
                                                 .then((value) => {
+                                                      cart.addTotalprice(
+                                                          double.parse(
+                                                              productPrice[
+                                                                      index]
+                                                                  .toString())),
+                                                      cart.addCounter(),
                                                       Utils.Toasts(
                                                           "Cart added successfull")
                                                     })
