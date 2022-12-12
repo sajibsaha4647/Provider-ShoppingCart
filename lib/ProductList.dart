@@ -1,7 +1,12 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider_with_shoppingcart/DbHelper.dart';
+import 'package:provider/provider.dart';
+import 'package:provider_with_shoppingcart/Utils.dart';
 
+import 'Cart_Provider.dart';
+import 'Cartmodel.dart';
 class ProductList extends StatefulWidget {
   const ProductList({super.key});
 
@@ -41,8 +46,13 @@ class _ProductListState extends State<ProductList> {
     'https://media.istockphoto.com/photos/fruit-background-picture-id529664572?s=612x612',
   ];
 
+  DBHelper dbHelper = DBHelper();
+
   @override
   Widget build(BuildContext context) {
+
+    final cart = Provider.of<Cartprovider>(context);
+
     return SafeArea(
       child: Scaffold(
         key: _key, // Assign the key to Scaffold.
@@ -139,6 +149,33 @@ class _ProductListState extends State<ProductList> {
                                           height: 8.h,
                                         ),
                                         InkWell(
+                                          onTap: () {
+                                            dbHelper
+                                                .insertData(Cart(
+                                                    id: index,
+                                                    productId: index.toString(),
+                                                    productName:
+                                                        productName[index]
+                                                            .toString(),
+                                                    initialPrice:
+                                                        productPrice[index],
+                                                    productPrice:
+                                                        productPrice[index],
+                                                    quantity: 1,
+                                                    unitTag: productUnit[index]
+                                                        .toString(),
+                                                    image: productImage[index]
+                                                        .toString()))
+                                                .then((value) => {
+                                                      Utils.Toasts(
+                                                          "Cart added successfull")
+                                                    })
+                                                .onError((error, stackTrace) =>
+                                                    {
+                                                      Utils.Toasts(
+                                                          "Cart Did not added !")
+                                                    });
+                                          },
                                           child: Container(
                                             height: 30.h,
                                             width: 100.w,

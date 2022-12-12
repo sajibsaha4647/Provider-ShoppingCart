@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: camel_case_types
-class cartProvider with ChangeNotifier {
+class Cartprovider with ChangeNotifier {
   int _counter = 0;
   int get counter => _counter;
 

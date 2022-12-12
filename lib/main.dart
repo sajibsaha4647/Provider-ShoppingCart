@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MultiProvider(
-          providers: [ChangeNotifierProvider(create: (_) => cartProvider())],
+          providers: [ChangeNotifierProvider(create: (_) => Cartprovider())],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             // You can use the library anywhere in the app even in theme
