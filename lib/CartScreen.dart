@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_with_shoppingcart/DbHelper.dart';
 
 import 'Cart_Provider.dart';
 import 'Cartmodel.dart';
@@ -13,13 +14,14 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
 
-  
+  DBHelper? dbHelper = DBHelper();
 
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<Cartprovider>(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.cyan,
         appBar: AppBar(
           backgroundColor: Colors.cyan,
           title: const Text(
@@ -59,6 +61,8 @@ class _CartScreenState extends State<CartScreen> {
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, index) {
                                 return Card(
+                                  elevation: 0,
+                                  color: Colors.cyan[200],
                                   child: Padding(
                                     padding: const EdgeInsets.all(8),
                                     child: Column(
@@ -106,12 +110,19 @@ class _CartScreenState extends State<CartScreen> {
                                                       ),
                                                       InkWell(
                                                           onTap: () {
-                                                            // dbHelper!.delete(
-                                                            //     snapshot
-                                                            //         .data![index]
-                                                            //         .id!);
-                                                            // cartProvider
-                                                            //     .removeCounter();
+                                                            dbHelper!.delete(
+                                                                snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .id!);
+                                                            cartProvider
+                                                                .removeCounter();
+                                                            cartProvider.removeTotalprice(
+                                                                double.parse(snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .productPrice
+                                                                    .toString()));
                                                           },
                                                           child: const Icon(
                                                               Icons.delete)),
@@ -170,49 +181,25 @@ class _CartScreenState extends State<CartScreen> {
                                                                         newprice =
                                                                         price *
                                                                             quentity;
-                                                                    // dbHelper
-                                                                    //     ?.updatedQuentity(Cart(
-                                                                    //         id: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .id!,
-                                                                    //         productId: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .id
-                                                                    //             .toString(),
-                                                                    //         productName: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .productName!,
-                                                                    //         initialPrice: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .productPrice!,
-                                                                    //         productPrice:
-                                                                    //             newprice,
-                                                                    //         quantity:
-                                                                    //             quentity,
-                                                                    //         unitTag: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .unitTag
-                                                                    //             .toString(),
-                                                                    //         image: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .image
-                                                                    //             .toString()))
-                                                                    //     .then(
-                                                                    //         (value) {
-                                                                    //   print(
-                                                                    //       "updated successfully");
-                                                                    // }).onError((error,
-                                                                    //         stackTrace) {
-                                                                    //   print(error);
-                                                                    //   print(
-                                                                    //       "updated failed");
-                                                                    // });
+                                                                    dbHelper
+                                                                        ?.updatedQuentity(Cart(
+                                                                            id: snapshot.data![index].id!,
+                                                                            productId: snapshot.data![index].id.toString(),
+                                                                            productName: snapshot.data![index].productName!,
+                                                                            initialPrice: snapshot.data![index].productPrice!,
+                                                                            productPrice: newprice,
+                                                                            quantity: quentity,
+                                                                            unitTag: snapshot.data![index].unitTag.toString(),
+                                                                            image: snapshot.data![index].image.toString()))
+                                                                        .then((value) {
+                                                                      print(
+                                                                          "updated successfully");
+                                                                    }).onError((error, stackTrace) {
+                                                                      print(
+                                                                          error);
+                                                                      print(
+                                                                          "updated failed");
+                                                                    });
                                                                   },
                                                                   child:
                                                                       const Icon(
@@ -245,49 +232,25 @@ class _CartScreenState extends State<CartScreen> {
                                                                         newprice =
                                                                         price *
                                                                             quentity;
-                                                                    // dbHelper
-                                                                    //     ?.updatedQuentity(Cart(
-                                                                    //         id: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .id!,
-                                                                    //         productId: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .id
-                                                                    //             .toString(),
-                                                                    //         productName: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .productName!,
-                                                                    //         initialPrice: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .productPrice!,
-                                                                    //         productPrice:
-                                                                    //             newprice,
-                                                                    //         quantity:
-                                                                    //             quentity,
-                                                                    //         unitTag: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .unitTag
-                                                                    //             .toString(),
-                                                                    //         image: snapshot
-                                                                    //             .data![
-                                                                    //                 index]
-                                                                    //             .image
-                                                                    //             .toString()))
-                                                                    //     .then(
-                                                                    //         (value) {
-                                                                    //   print(
-                                                                    //       "updated successfully");
-                                                                    // }).onError((error,
-                                                                    //         stackTrace) {
-                                                                    //   print(error);
-                                                                    //   print(
-                                                                    //       "updated failed");
-                                                                    // });
+                                                                    dbHelper
+                                                                        ?.updatedQuentity(Cart(
+                                                                            id: snapshot.data![index].id!,
+                                                                            productId: snapshot.data![index].id.toString(),
+                                                                            productName: snapshot.data![index].productName!,
+                                                                            initialPrice: snapshot.data![index].productPrice!,
+                                                                            productPrice: newprice,
+                                                                            quantity: quentity,
+                                                                            unitTag: snapshot.data![index].unitTag.toString(),
+                                                                            image: snapshot.data![index].image.toString()))
+                                                                        .then((value) {
+                                                                      print(
+                                                                          "updated successfully");
+                                                                    }).onError((error, stackTrace) {
+                                                                      print(
+                                                                          error);
+                                                                      print(
+                                                                          "updated failed");
+                                                                    });
                                                                   },
                                                                   child:
                                                                       const Icon(
@@ -314,6 +277,7 @@ class _CartScreenState extends State<CartScreen> {
                     return const Text('');
                   }
                 })
+            
           ],
         ),
       ),
