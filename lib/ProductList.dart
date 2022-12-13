@@ -46,7 +46,7 @@ class _ProductListState extends State<ProductList> {
     'https://media.istockphoto.com/photos/fruit-background-picture-id529664572?s=612x612',
   ];
 
-  DBHelper dbHelper = DBHelper();
+  DBHelper? dbHelper = DBHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -153,10 +153,11 @@ class _ProductListState extends State<ProductList> {
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            dbHelper
+                                            dbHelper!
                                                 .insertData(Cart(
                                                     id: index,
-                                                    productId: index.toString(),
+                                                    productId:
+                                                        (index + 1).toString(),
                                                     productName:
                                                         productName[index]
                                                             .toString(),
@@ -181,6 +182,7 @@ class _ProductListState extends State<ProductList> {
                                                     })
                                                 .onError((error, stackTrace) =>
                                                     {
+                                                      print(error),
                                                       Utils.Toasts(
                                                           "Cart Did not added !")
                                                     });
