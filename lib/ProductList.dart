@@ -1,6 +1,8 @@
 import 'package:badges/badges.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider_with_shoppingcart/CartScreen.dart';
 import 'package:provider_with_shoppingcart/DbHelper.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_with_shoppingcart/Utils.dart';
@@ -82,7 +84,12 @@ class _ProductListState extends State<ProductList> {
               Padding(
                   padding: const EdgeInsets.only(right: 20.0),
                   child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (_) => const CartScreen()));
+                      },
                       child: Center(
                         child: Badge(
                           badgeContent: Consumer<Cartprovider>(

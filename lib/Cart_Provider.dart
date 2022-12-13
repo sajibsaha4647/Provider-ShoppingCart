@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider_with_shoppingcart/Cartmodel.dart';
+import 'package:provider_with_shoppingcart/DbHelper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: camel_case_types
@@ -8,6 +10,18 @@ class Cartprovider with ChangeNotifier {
 
   double _totalPrice = 0.0;
   double get totalprice => _totalPrice;
+
+  DBHelper db = DBHelper();
+
+  late Future<List<Cart>> _cart;
+  Future<List<Cart>> get cart => _cart;
+
+  Future<List<Cart>> getData() async {
+    _cart = db.getCartData();
+    return _cart;
+  }
+
+
 
   void _setPrefItem() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
